@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import MovieCard from "../Components/MovieCard";
 import TvCard from "../Components/TvCard";
-import { searchPopularMovies, getPopularMovies, getTopRatedMovies, getTvShows } from "../services/api";
+import {
+  searchPopularMovies,
+  getPopularMovies,
+  getTopRatedMovies,
+  getTvShows,
+} from "../services/api";
 import "../css/Home.css";
 
 function Home() {
@@ -13,60 +18,63 @@ function Home() {
   const [tvShows, setTvShows] = useState([]);
 
   useEffect(() => {
-    const loadMovies = async () => {
+  const query = searchQuery.trim();
+
+  if (!query) {
+    const resetData = async () => {
+      setLoading(true);
       try {
         const popularMovies = await getPopularMovies();
-        setMovies(popularMovies.splice(0, 5)); // Limit to 10 results
-        setError(null);
+        setMovies(popularMovies.slice(0, 5));
 
         const topRated = await getTopRatedMovies();
-        setTopRatedMovies(topRated.splice(0, 5)); // Limit to 10
-        setError(null);
-
+        setTopRatedMovies(topRated.slice(0, 5));
 
         const tvShowsData = await getTvShows();
-        setTvShows(tvShowsData.splice(0, 5)); // Limit to 10
-        
+        setTvShows(tvShowsData.slice(0, 5));
 
+        setError(null);
       } catch (error) {
-        console.log(error);
-        setError("Failed to fetch popular movies.");
+        console.error(error);
+        setError("Failed to reload default data.");
       } finally {
         setLoading(false);
       }
     };
 
-    loadMovies();
-  }, []);
+    resetData();
+    return;
+  }
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
-    if (loading) return;
+  const delayDebounce = setTimeout(async () => {
     setLoading(true);
-
     try {
-      const searchResults = await searchPopularMovies(searchQuery);
-      if (searchResults.length === 0) {
+      const results = await searchPopularMovies(query);
+      if (results.length === 0) {
         setError("No movies found.");
+        setMovies([]);
       } else {
-        setMovies(searchResults.splice(0, 10)); 
+        setMovies(results.slice(0, 10));
+        setTopRatedMovies([]);
+        setTvShows([]);
         setError(null);
       }
-
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setError("Failed to fetch search results.");
-      setMovies([]); 
-      
+      setMovies([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, 500);
+
+  return () => clearTimeout(delayDebounce);
+}, [searchQuery]);
+
 
   return (
     <div className="home">
-      <form action="" onSubmit={handleSearch} className="search-form">
+      <form className="search-form" onSubmit={(e) => e.preventDefault()}>
         <input
           type="text"
           placeholder="Movies..."
@@ -74,8 +82,7 @@ function Home() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-
-        <button type="submit" className="search-button">
+        <button type="submit" className="search-button" disabled>
           Search
         </button>
       </form>
@@ -84,38 +91,33 @@ function Home() {
       {loading ? (
         <div className="loading">Loading...</div>
       ) : (
-        <div className="movies-grid">
-          {movies.map((movie) => (
-            <MovieCard movie={movie} key={movie.id} />
-          ))}
-        </div>
-      )}
-
-      <div>
-        <h2 className="top-rated-title">Top Rated Movies</h2>
-        {loading ? (
-          <div className="loading">Loading...</div>
-        ) : (
+        <div>
+          <h2>Popular Movies</h2>
           <div className="movies-grid">
-            {topRatedMovies.map((movie) => (
+            {movies.map((movie) => (
               <MovieCard movie={movie} key={movie.id} />
             ))}
           </div>
-        )}
-      </div>
 
-      <div>
-        <h2 className="top-rated-title">Tv Shows</h2>
-        {loading ? (
-          <div className="loading">Loading...</div>
-        ) : (
-          <div className="movies-grid">
-            {tvShows.map((movie) => (
-              <TvCard movie={movie} key={movie.id} />
-            ))}
-          </div>
-        )}
-      </div>
+          {!searchQuery && (
+            <>
+              <h2>Top Rated</h2>
+              <div className="movies-grid">
+                {topRatedMovies.map((movie) => (
+                  <MovieCard movie={movie} key={movie.id} />
+                ))}
+              </div>
+
+              <h2>TV Shows</h2>
+              <div className="movies-grid">
+                {tvShows.map((movie) => (
+                  <TvCard movie={movie} key={movie.id} />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }
