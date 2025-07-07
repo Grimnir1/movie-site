@@ -1,0 +1,62 @@
+.movie-details-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  gap: 30px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.poster-section {
+  flex: 1 1 300px;
+  text-align: center;
+}
+
+.movie-poster {
+  width: 100%;
+  /* max-width: 300px; */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.info-section {
+  flex: 2 1 500px;
+}
+
+.movie-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.release-year {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.overview {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.movie-meta {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.movie-meta li {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.trailer-section {
+  margin-top: 20px;
+}
+
+.trailer-section h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
