@@ -8,6 +8,19 @@ export const getPopularMovies = async () => {
   return data.results;
 };
 
+// Get top-rated movies
+export const getTopRatedMovies = async () => {
+  const response = await fetch(`${API_URL}/movie/top_rated?api_key=${API_KEY}`);
+  const data = await response.json();
+  return data.results;
+};
+
+// Get tv shows
+export const getTvShows = async () => {
+  const response = await fetch(`${API_URL}/tv/top_rated?api_key=${API_KEY}`);
+  const data = await response.json();
+  return data.results;
+}
 // Search for movies
 export const searchPopularMovies = async (query) => {
   const response = await fetch(
@@ -48,6 +61,37 @@ export const fetchSimilarMovies = async (id) => {
 // Fetch recommended movies
 export const fetchRecommendedMovies = async (id) => {
   const response = await fetch(`${API_URL}/movie/${id}/recommendations?api_key=${API_KEY}`);
+  const data = await response.json();
+  return data.results;
+};
+
+
+export const fetchTvById = async (id) => {
+  const response = await fetch(`${API_URL}/tv/${id}?api_key=${API_KEY}`);
+  const data = await response.json();
+  return data;
+};
+
+export const fetchTvVideos = async (id) => {
+  const response = await fetch(`${API_URL}/tv/${id}/videos?api_key=${API_KEY}`);
+  const data = await response.json();
+  return data.results;
+};
+
+export const fetchTvCredits = async (id) => {
+  const response = await fetch(`${API_URL}/tv/${id}/credits?api_key=${API_KEY}`);
+  const data = await response.json();
+  return data;
+};
+
+export const fetchSimilarTvShows = async (id) => {
+  const response = await fetch(`${API_URL}/tv/${id}/similar?api_key=${API_KEY}`);
+  const data = await response.json();
+  return data.results;
+};
+
+export const fetchRecommendedTvShows = async (id) => {
+  const response = await fetch(`${API_URL}/tv/${id}/recommendations?api_key=${API_KEY}`);
   const data = await response.json();
   return data.results;
 };

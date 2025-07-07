@@ -60,3 +60,25 @@
   margin-bottom: 10px;
   font-size: 1.2rem;
 }
+.cast-list, .crew-list{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  overflow-x: scroll;
+  list-style: none;
+}
+
+.cast-member {
+  flex: 1 1 150px;
+  text-align: center;
+}
+.cast-member img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.cast-member p {
+  margin-top: 5px;
+  font-size: 0.9rem;
+  /* color: #333; */
+}

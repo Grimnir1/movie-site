@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import MovieCard from "../Components/MovieCard";
-import { searchPopularMovies, getPopularMovies } from "../services/api";
+import TvCard from "../Components/TvCard";
+import { searchPopularMovies, getPopularMovies, getTopRatedMovies, getTvShows } from "../services/api";
 import "../css/Home.css";
 
 function Home() {
@@ -8,12 +9,25 @@ function Home() {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [topRatedMovies, setTopRatedMovies] = useState([]);
+  const [tvShows, setTvShows] = useState([]);
 
   useEffect(() => {
     const loadMovies = async () => {
       try {
         const popularMovies = await getPopularMovies();
-        setMovies(popularMovies);
+        setMovies(popularMovies.splice(0, 5)); // Limit to 10 results
+        setError(null);
+
+        const topRated = await getTopRatedMovies();
+        setTopRatedMovies(topRated.splice(0, 5)); // Limit to 10
+        setError(null);
+
+
+        const tvShowsData = await getTvShows();
+        setTvShows(tvShowsData.splice(0, 5)); // Limit to 10
+        
+
       } catch (error) {
         console.log(error);
         setError("Failed to fetch popular movies.");
@@ -36,7 +50,7 @@ function Home() {
       if (searchResults.length === 0) {
         setError("No movies found.");
       } else {
-        setMovies(searchResults);
+        setMovies(searchResults.splice(0, 10)); 
         setError(null);
       }
 
@@ -76,6 +90,32 @@ function Home() {
           ))}
         </div>
       )}
+
+      <div>
+        <h2 className="top-rated-title">Top Rated Movies</h2>
+        {loading ? (
+          <div className="loading">Loading...</div>
+        ) : (
+          <div className="movies-grid">
+            {topRatedMovies.map((movie) => (
+              <MovieCard movie={movie} key={movie.id} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div>
+        <h2 className="top-rated-title">Tv Shows</h2>
+        {loading ? (
+          <div className="loading">Loading...</div>
+        ) : (
+          <div className="movies-grid">
+            {tvShows.map((movie) => (
+              <TvCard movie={movie} key={movie.id} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
