@@ -25,7 +25,7 @@ function Home() {
       setLoading(true);
       try {
         const popularMovies = await getPopularMovies();
-        setMovies(popularMovies.slice(0, 5));
+        setMovies(popularMovies.slice(0, 10));
 
         const topRated = await getTopRatedMovies();
         setTopRatedMovies(topRated.slice(0, 5));
@@ -82,9 +82,6 @@ function Home() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <button type="submit" className="search-button" disabled>
-          Search
-        </button>
       </form>
 
       {error && <div className="error">{error}</div>}
@@ -92,8 +89,8 @@ function Home() {
         <div className="loading">Loading...</div>
       ) : (
         <div>
-          <h2>Popular Movies</h2>
-          <div className="movies-grid">
+          {/* <h2>Popular Movies</h2> */}
+          <div className="movies-grid movie-scroll-container">
             {movies.map((movie) => (
               <MovieCard movie={movie} key={movie.id} />
             ))}
