@@ -26,7 +26,7 @@ function MovieDetails() {
 
 
         const credits = await fetchMovieCredits(id);
-        setCast(credits.cast.slice(0, 7));
+        setCast(credits.cast.slice(0, 15));
         setCrew(credits.crew.filter(member => member.job === "Director" || member.job === "Producer" || member.job === "Writer").splice(0, 5));
 
 
@@ -78,9 +78,9 @@ function MovieDetails() {
 
         <div>
             <h3>Cast</h3>
-            <ul className="cast-list">
+            <ul className="cast-list movie-scroll-container">
                 {cast.map((member) => (
-                <li key={member.id} className="cast-member">
+                <li key={member.id} className="cast-member ">
                     <img
                     src={`https://image.tmdb.org/t/p/w500${member.profile_path}`}
                     alt={member.name}
@@ -130,7 +130,7 @@ function MovieDetails() {
         </div>
         <div className="similar-movies">
             <h3>Similar Movies</h3>
-            <div className="movies-grid">
+            <div className="movies-grid movie-scroll-container">
                 {similarMovies.map((movie) => (
                 <MovieCard movie={movie} key={movie.id} />
                 ))}
@@ -138,7 +138,7 @@ function MovieDetails() {
         </div>
         <div className="recommended-movies">
             <h3>Recommended Movies</h3>
-            <div className="movies-grid">
+            <div className="movies-grid movie-scroll-container">
                 {recommendedMovies.map((movie) => (
                 <MovieCard movie={movie} key={movie.id} />
                 ))}

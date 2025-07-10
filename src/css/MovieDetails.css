@@ -64,13 +64,22 @@
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
-  overflow-x: scroll;
   list-style: none;
 }
 
 .cast-member {
-  flex: 1 1 150px;
+  flex: 1 1 100px;
   text-align: center;
+  min-width: 300px;
+    position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #1a1a1a;
+  transition: transform 0.2s;
+  height: 100%;
+  display: flex;
+  min-width: 300px;
+  flex-direction: column;
 }
 .cast-member img {
   width: 100%;
@@ -81,4 +90,15 @@
   margin-top: 5px;
   font-size: 0.9rem;
   /* color: #333; */
+}
+
+.movie-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 20px;
+  /* scrollbar-width: none;  */
+}
+
+.movie-scroll-container::-webkit-scrollbar {
+  /* display: none;  */
 }

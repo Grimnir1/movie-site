@@ -28,10 +28,10 @@ function Home() {
         setMovies(popularMovies.slice(0, 10));
 
         const topRated = await getTopRatedMovies();
-        setTopRatedMovies(topRated.slice(0, 5));
+        setTopRatedMovies(topRated.slice(0, 15));
 
         const tvShowsData = await getTvShows();
-        setTvShows(tvShowsData.slice(0, 5));
+        setTvShows(tvShowsData.slice(0, 15));
 
         setError(null);
       } catch (error) {
@@ -99,14 +99,14 @@ function Home() {
           {!searchQuery && (
             <>
               <h2>Top Rated</h2>
-              <div className="movies-grid">
+              <div className="movies-grid movie-scroll-container">
                 {topRatedMovies.map((movie) => (
                   <MovieCard movie={movie} key={movie.id} />
                 ))}
               </div>
 
               <h2>TV Shows</h2>
-              <div className="movies-grid">
+              <div className="movies-grid movie-scroll-container">
                 {tvShows.map((movie) => (
                   <TvCard movie={movie} key={movie.id} />
                 ))}
