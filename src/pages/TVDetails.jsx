@@ -9,7 +9,7 @@ import {
 } from "../services/api";
 import "../css/MovieDetails.css";
 import MovieCard from "../Components/MovieCard";
-
+import Loading from "../Components/Loading";
 function TVDetails() {
   const { id } = useParams();
   const [tv, setTv] = useState(null);
@@ -53,7 +53,7 @@ function TVDetails() {
     loadTV();
   }, [id]);
 
-  if (!tv) return <div className="loading">Loading...</div>;
+  if (!tv) return <Loading />;
 
   return (
     <div className="movie-details-container">

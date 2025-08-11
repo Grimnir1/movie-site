@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchMovieById, fetchMovieVideos, fetchMovieCredits, fetchSimilarMovies, fetchRecommendedMovies } from "../services/api";
 import "../css/MovieDetails.css";
 import MovieCard from "../Components/MovieCard";
-
+import Loading from "../Components/Loading";
 function MovieDetails() {
     const { id } = useParams();
     const [movie, setMovie] = useState(null);
@@ -47,7 +47,7 @@ function MovieDetails() {
 
 
 
-  if (!movie) return <div className="loading">Loading...</div>;
+  if (!movie) return <Loading />;
 
   return (
     <div className="movie-details-container">
