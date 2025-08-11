@@ -12,9 +12,11 @@ function MovieDetails() {
     const [crew, setCrew] = useState([]);
     const [similarMovies, setSimilarMovies] = useState([]);
     const [recommendedMovies, setRecommendedMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadMovie = async () => {
+      setLoading(true);
         const data = await fetchMovieById(id);
         setMovie(data);
 
@@ -47,7 +49,7 @@ function MovieDetails() {
 
 
 
-  if (!movie) return <Loading />;
+  if (loading) return <Loading />;
 
   return (
     <div className="movie-details-container">

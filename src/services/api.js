@@ -8,6 +8,12 @@ export const getPopularMovies = async () => {
   return data.results;
 };
 
+export const getPopularTvShows = async () => {
+  const response = await fetch(`${API_URL}/tv/popular?api_key=${API_KEY}`);
+  const data = await response.json();
+  return data.results;
+};
+
 // Get top-rated movies
 export const getTopRatedMovies = async () => {
   const response = await fetch(`${API_URL}/movie/top_rated?api_key=${API_KEY}`);
@@ -108,4 +114,57 @@ export const getNowPlayingMovies = async () => {
   const response = await fetch(`${API_URL}/movie/now_playing?api_key=${API_KEY}`);
   const data = await response.json();
   return data.results;
+};
+
+export const fetchRecommendedAnime = async () => {
+  try {
+    // Method 1: Discover TV shows with Animation genre (genre id 16)
+    const response = await fetch(
+      `${API_URL}/discover/tv?api_key=${API_KEY}&with_genres=16&language=en-US&with_origin_country=JP`
+    );
+    
+    // Check if the response is ok
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    // Check if data and results exist
+    if (!data || !data.results) {
+      throw new Error('Invalid response structure');
+    }
+    
+    return data.results;
+    
+  } catch (error) {
+    console.error('Error fetching recommended anime:', error);
+    throw error; // Re-throw the error so calling code can handle it
+  }
+};
+export const fetchRecommendedKdrama = async () => {
+  try {
+    // Method 1: Discover TV shows with Animation genre (genre id 16)
+    const response = await fetch(
+      `${API_URL}/discover/tv?api_key=${API_KEY}&language=en-US&with_origin_country=KR`
+    );
+    
+    // Check if the response is ok
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    // Check if data and results exist
+    if (!data || !data.results) {
+      throw new Error('Invalid response structure');
+    }
+    
+    return data.results;
+    
+  } catch (error) {
+    console.error('Error fetching recommended anime:', error);
+    throw error; // Re-throw the error so calling code can handle it
+  }
 };

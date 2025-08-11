@@ -2,11 +2,15 @@ import { useState, useEffect } from "react";
 import MovieCard from "../Components/MovieCard";
 import TvCard from "../Components/TvCard";
 import Loading from "../Components/Loading";
+
 import {
   searchPopularMovies,
   getPopularMovies,
   getTopRatedMovies,
   getTvShows,
+  fetchRecommendedAnime,
+  fetchRecommendedKdrama,
+  getPopularTvShows
 } from "../services/api";
 import "../css/Home.css";
 
@@ -17,6 +21,9 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
   const [tvShows, setTvShows] = useState([]);
+  const [recommendedAnime, setRecommendedAnime] = useState([]);
+  const [recommendedKdrama, setRecommendedKdrama] = useState([]);
+  const [popularTvShows, setPopularTvShows] = useState([]);
 
   useEffect(() => {
   const query = searchQuery.trim();
@@ -28,11 +35,20 @@ function Home() {
         const popularMovies = await getPopularMovies();
         setMovies(popularMovies.slice(0, 10));
 
+        const recommendedAnime = await fetchRecommendedAnime();
+        setRecommendedAnime(recommendedAnime.slice(0, 10));
+
         const topRated = await getTopRatedMovies();
         setTopRatedMovies(topRated.slice(0, 15));
 
         const tvShowsData = await getTvShows();
         setTvShows(tvShowsData.slice(0, 15));
+
+        const recommendedKdrama = await fetchRecommendedKdrama();
+        setRecommendedKdrama(recommendedKdrama.slice(0, 10));
+
+        const popularTvShowsData = await getPopularTvShows();
+        setPopularTvShows(popularTvShowsData.slice(0, 15));
 
         setError(null);
       } catch (error) {
@@ -90,15 +106,26 @@ function Home() {
         <Loading />
       ) : (
         <div>
-          {/* <h2>Popular Movies</h2> */}
-          <div className="movies-grid movie-scroll-container">
-            {movies.map((movie) => (
-              <MovieCard movie={movie} key={movie.id} />
-            ))}
+          <div className="movie-class">
+            <h2>Popular Movies</h2>
+            <div className="movies-grid movie-scroll-container">
+              {movies.map((movie) => (
+                <MovieCard movie={movie} key={movie.id} />
+              ))}
+            </div>
           </div>
 
           {!searchQuery && (
             <>
+              <div className="movie-class">
+                <h2>Popular TV Shows</h2>
+                <div className="movies-grid movie-scroll-container">
+                  {popularTvShows.map((movie) => (
+                    <TvCard movie={movie} key={movie.id} />
+                  ))}
+                </div>
+              </div>
+
               <h2>Top Rated</h2>
               <div className="movies-grid movie-scroll-container">
                 {topRatedMovies.map((movie) => (
@@ -109,6 +136,20 @@ function Home() {
               <h2>TV Shows</h2>
               <div className="movies-grid movie-scroll-container">
                 {tvShows.map((movie) => (
+                  <TvCard movie={movie} key={movie.id} />
+                ))}
+              </div>
+
+              <h2>Anime</h2>
+              <div className="movies-grid movie-scroll-container">
+                {recommendedAnime.map((movie) => (
+                  <TvCard movie={movie} key={movie.id} />
+                ))}
+              </div>
+
+              <h2>Kdrama</h2>
+              <div className="movies-grid movie-scroll-container">
+                {recommendedKdrama.map((movie) => (
                   <TvCard movie={movie} key={movie.id} />
                 ))}
               </div>

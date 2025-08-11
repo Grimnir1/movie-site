@@ -46,6 +46,12 @@
   width: 100%;
   box-sizing: border-box;
 }
+
+.movie-class{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
 .loading{
   display: flex;
   justify-content: center;
