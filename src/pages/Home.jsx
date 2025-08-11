@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import MovieCard from "../Components/MovieCard";
 import TvCard from "../Components/TvCard";
+import Loading from "../Components/Loading";
 import {
   searchPopularMovies,
   getPopularMovies,
@@ -86,7 +87,7 @@ function Home() {
 
       {error && <div className="error">{error}</div>}
       {loading ? (
-        <div className="loading">Loading...</div>
+        <Loading />
       ) : (
         <div>
           {/* <h2>Popular Movies</h2> */}

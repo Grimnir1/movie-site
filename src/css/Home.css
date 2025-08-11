@@ -68,9 +68,10 @@
   display: flex;
   overflow-x: auto;
   padding: 20px;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 
+
 .movie-scroll-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
+  display: none; 
 }

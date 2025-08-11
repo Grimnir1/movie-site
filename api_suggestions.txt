@@ -1,0 +1,54 @@
+API Feature Suggestions (excluding user account features)
+===========================================================
+
+1. More Movie/TV Data
+---------------------
+- Genres: Fetch all available genres and allow users to filter/browse by genre.
+  - GET /genre/movie/list
+  - GET /genre/tv/list
+- Discover Endpoint: Advanced search and filtering (by year, genre, language, etc.).
+  - GET /discover/movie
+  - GET /discover/tv
+- Trending: Show trending movies/TV shows by day or week.
+  - GET /trending/movie/day
+  - GET /trending/tv/week
+- Now Playing / Upcoming / Airing Today:
+  - GET /movie/now_playing
+  - GET /movie/upcoming
+  - GET /tv/airing_today
+  - GET /tv/on_the_air
+
+2. Person (Actor/Director) Data
+-------------------------------
+- Person Details: Fetch detailed info about actors, directors, etc.
+  - GET /person/{person_id}
+- Person Credits: List all movies/TV shows a person has worked on.
+  - GET /person/{person_id}/movie_credits
+  - GET /person/{person_id}/tv_credits
+- Popular People: Show trending/most popular actors.
+  - GET /person/popular
+
+3. Social & Community
+---------------------
+- Reviews: Fetch and display user reviews for movies/TV shows.
+  - GET /movie/{movie_id}/reviews
+  - GET /tv/{tv_id}/reviews
+- Watch Providers: Show where a movie/TV show can be streamed or purchased.
+  - GET /movie/{movie_id}/watch/providers
+  - GET /tv/{tv_id}/watch/providers
+- Images: Fetch additional images (backdrops, posters, stills).
+  - GET /movie/{movie_id}/images
+  - GET /tv/{tv_id}/images
+
+4. Advanced Search & Filtering
+-----------------------------
+- Multi-Search: Search across movies, TV shows, and people in one go.
+  - GET /search/multi
+- Keyword Search: Find movies/TV shows by keywords.
+  - GET /search/keyword
+  - GET /keyword/{keyword_id}/movies
+
+5. Localization & Internationalization
+-------------------------------------
+- Languages: Fetch available languages and localize content.
+- Translations: Fetch translations for movies, TV shows, or people.

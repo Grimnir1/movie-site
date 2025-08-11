@@ -37,14 +37,12 @@ export const fetchMovieById = async (id) => {
   return data;
 };
 
-// Fetch videos (trailers, teasers, etc.) for a movie
 export const fetchMovieVideos = async (id) => {
   const response = await fetch(`${API_URL}/movie/${id}/videos?api_key=${API_KEY}`);
   const data = await response.json();
   return data.results;
 };
 
-// Fetch cast and crew for a movie
 export const fetchMovieCredits = async (id) => {
   const response = await fetch(`${API_URL}/movie/${id}/credits?api_key=${API_KEY}`);
   const data = await response.json();
@@ -92,6 +90,22 @@ export const fetchSimilarTvShows = async (id) => {
 
 export const fetchRecommendedTvShows = async (id) => {
   const response = await fetch(`${API_URL}/tv/${id}/recommendations?api_key=${API_KEY}`);
+  const data = await response.json();
+  return data.results;
+};
+
+export const getUpcomingMovies = async () => {
+  const response = await fetch(`${API_URL}/movie/upcoming?api_key=${API_KEY}`);
+  const data = await response.json();
+  return data.results;
+};
+export const getAiringTodayTv = async () => {
+  const response = await fetch(`${API_URL}/tv/airing_today?api_key=${API_KEY}`);
+  const data = await response.json();
+  return data.results;
+};
+export const getNowPlayingMovies = async () => {
+  const response = await fetch(`${API_URL}/movie/now_playing?api_key=${API_KEY}`);
   const data = await response.json();
   return data.results;
 };

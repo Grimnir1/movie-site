@@ -6,6 +6,7 @@ import "./css/App.css";
 import TVDetails from "./pages/TVDetails";
 import { MovieProvider } from "./contexts/MovieContext";
 import MovieDetails from "./pages/MovieDetails";
+import AiringToday from "./pages/AiringToday";
 
 function App() {
   const movieNumber = 2;
@@ -20,6 +21,8 @@ function App() {
             <Route path="/favourites" element={<Favorites />} />
             <Route path="/movie/:id" element={<MovieDetails />} />
             <Route path="/tv/:id" element={<TVDetails />} />
+            <Route path="airingtoday" element={<AiringToday />} />
+            
           </Routes>
         </main>
       </div>
