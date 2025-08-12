@@ -1,0 +1,25 @@
+.cast-member {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    transition: transform 0.2s;
+    height: 100%;
+    display: flex;
+    min-width: 200px;
+    flex-direction: column;
+}
+
+.cast-photo {
+    width: 200px;
+    height: 250px;
+    object-fit: cover;
+    /* border-radius: 50%; */
+}
+
+.cast-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
