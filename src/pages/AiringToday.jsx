@@ -7,6 +7,8 @@ import MovieCard from "../Components/MovieCard";
 function AiringToday() {
     const [airingToday, setAiringToday] = useState([]);
     const [upcomingMovies, setUpcomingMovies] = useState([]);
+    const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
+    
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -15,8 +17,19 @@ function AiringToday() {
         const loadAiringToday = async () => {
             setLoading(true);
             try {
-                const response = await getAiringTodayTv();
-                setAiringToday(response.slice(0, 10));
+                const airingToday = await getAiringTodayTv();
+                setAiringToday(airingToday.slice(0, 10));
+
+                const upcomingMovies = await getUpcomingMovies();
+                setUpcomingMovies(upcomingMovies.slice(0, 10));
+
+                const nowPlayingMovies = await getNowPlayingMovies();
+                setNowPlayingMovies(nowPlayingMovies.slice(0, 10));
+
+
+
+                setError(null);
+
             } catch (error) {
                 console.error(error);
                 setError("Failed to fetch airing today TV shows.");
@@ -27,19 +40,7 @@ function AiringToday() {
         loadAiringToday();
 
 
-        const upcomingMovies = async () => {
-            setLoading(true);
-            try {
-                const response = await getUpcomingMovies();
-                setUpcomingMovies(response.slice(0, 10));
-            } catch (error) {
-                console.error(error);
-                setError("Failed to fetch upcoming movies.");
-            } finally {
-                setLoading(false);
-            }
-        }
-        upcomingMovies();
+
     }, []);
 
 
@@ -69,7 +70,16 @@ function AiringToday() {
                             ))}
                         </div>  
                     </div>
-                    
+                    <div>
+                        <h2>Now Playing</h2>
+                        <div className="movies-grid">
+                            {
+                                nowPlayingMovies.map((movies) => (
+                                    <MovieCard movie={movies} key={movies.id} />
+                                ))
+                            }
+                        </div>
+                    </div>
 
 
                 </div>

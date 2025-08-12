@@ -1,7 +1,7 @@
 import '../css/Error.css'
 function Error({error}) {
     return (
-        <div>
+        <div className='error'>
             <p>{error}</p>
         </div>
     )

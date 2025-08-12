@@ -10,7 +10,8 @@ import {
   getTvShows,
   fetchRecommendedAnime,
   fetchRecommendedKdrama,
-  getPopularTvShows
+  getPopularTvShows,
+  fetchRecommendedNollywood
 } from "../services/api";
 import "../css/Home.css";
 
@@ -24,6 +25,7 @@ function Home() {
   const [recommendedAnime, setRecommendedAnime] = useState([]);
   const [recommendedKdrama, setRecommendedKdrama] = useState([]);
   const [popularTvShows, setPopularTvShows] = useState([]);
+  const [recommendedNollywood, setRecommendedNollywood] = useState([]);
 
   useEffect(() => {
   const query = searchQuery.trim();
@@ -50,10 +52,13 @@ function Home() {
         const popularTvShowsData = await getPopularTvShows();
         setPopularTvShows(popularTvShowsData.slice(0, 15));
 
+        const recommendedNollywood = await fetchRecommendedNollywood();
+        setRecommendedNollywood(recommendedNollywood.slice(0, 10));
+
         setError(null);
       } catch (error) {
         console.error(error);
-        setError("Failed to reload default data.");
+        setError("Failed to fetch movie data.");
       } finally {
         setLoading(false);
       }
@@ -126,32 +131,49 @@ function Home() {
                 </div>
               </div>
 
-              <h2>Top Rated</h2>
-              <div className="movies-grid movie-scroll-container">
-                {topRatedMovies.map((movie) => (
-                  <MovieCard movie={movie} key={movie.id} />
-                ))}
+              <div className="movie-class">
+                <h2>Top Rated Movies</h2>
+                <div className="movies-grid movie-scroll-container">
+                  {topRatedMovies.map((movie) => (
+                    <MovieCard movie={movie} key={movie.id} />
+                  ))}
+                </div>
               </div>
 
-              <h2>TV Shows</h2>
-              <div className="movies-grid movie-scroll-container">
-                {tvShows.map((movie) => (
-                  <TvCard movie={movie} key={movie.id} />
-                ))}
+              <div className="movie-class">
+                <h2> Top Rated TV Shows</h2>
+                <div className="movies-grid movie-scroll-container">
+                  {tvShows.map((movie) => (
+                    <TvCard movie={movie} key={movie.id} />
+                  ))}
+                </div>
               </div>
 
-              <h2>Anime</h2>
-              <div className="movies-grid movie-scroll-container">
-                {recommendedAnime.map((movie) => (
-                  <TvCard movie={movie} key={movie.id} />
-                ))}
+              <div className="movie-class">
+                <h2>Anime</h2>
+                <div className="movies-grid movie-scroll-container">
+                  {recommendedAnime.map((movie) => (
+                    <TvCard movie={movie} key={movie.id} />
+                  ))}
+                </div>
               </div>
 
-              <h2>Kdrama</h2>
-              <div className="movies-grid movie-scroll-container">
-                {recommendedKdrama.map((movie) => (
-                  <TvCard movie={movie} key={movie.id} />
-                ))}
+              <div className="movie-class">
+                <h2>Kdrama</h2>
+                <div className="movies-grid movie-scroll-container">
+                  {recommendedKdrama.map((movie) => (
+                    <TvCard movie={movie} key={movie.id} />
+                  ))}
+                </div>
+              </div>
+
+              <div className="movie-class">
+                <h2>Nollywood</h2>
+                <div className="movies-grid movie-scroll-container">
+                  {recommendedNollywood.map((movie) => (
+                    <MovieCard movie={movie} key={movie.id} />
+                  ))}
+                </div>
               </div>
             </>
           )}

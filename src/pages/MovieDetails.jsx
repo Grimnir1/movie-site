@@ -80,7 +80,7 @@ function MovieDetails() {
 
         <div>
             <h3>Cast</h3>
-            <ul className="cast-list movie-scroll-container">
+            <div className="cast-list movie-scroll-container">
                 {cast.map((member) => (
                 <li key={member.id} className="cast-member ">
                     <img
@@ -94,7 +94,7 @@ function MovieDetails() {
                     </div>
                 </li>
                 ))}
-            </ul>
+            </div>
 
             <h3>Crew</h3>
             <ul className="crew-list">
