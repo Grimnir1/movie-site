@@ -14,6 +14,7 @@ import {
   fetchRecommendedNollywood
 } from "../services/api";
 import "../css/Home.css";
+import Error from "../Components/Error";  
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -106,10 +107,9 @@ function Home() {
         />
       </form>
 
-      {error && <div className="error">{error}</div>}
-      {loading ? (
+      {loading ? ( 
         <Loading />
-      ) : (
+      ): error ? <Error error={error} /> : (
         <div>
           <div className="movie-class">
             <h2>Popular Movies</h2>

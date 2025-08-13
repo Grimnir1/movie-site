@@ -52,7 +52,7 @@ function AiringToday() {
                     <Error error={error} />
                 ) : (
                 <div>
-                    <div>
+                    <div className="movie-class">
                         <h2>Upcoming Movies</h2>
                         <div className="movies-grid">
                             {
@@ -62,7 +62,7 @@ function AiringToday() {
                             }
                         </div>
                     </div>
-                    <div >
+                    <div className="movie-class">
                         <h2>Tv Shows Airing Today</h2>
                         <div className="movies-grid">
                             {airingToday.map((movie) => (
@@ -70,7 +70,7 @@ function AiringToday() {
                             ))}
                         </div>  
                     </div>
-                    <div>
+                    <div className="movie-class">
                         <h2>Now Playing</h2>
                         <div className="movies-grid">
                             {

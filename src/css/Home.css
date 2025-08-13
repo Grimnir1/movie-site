@@ -48,6 +48,7 @@
 }
 
 .movie-class{
+    padding-top: 50px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
