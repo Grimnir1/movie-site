@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import MovieCard from "../Components/MovieCard";
 import TvCard from "../Components/TvCard";
-import Loading from "../Components/Loading";
+import MovieCardSkeleton from "../Components/MovieCardSkeleton";
 
 import {
   searchPopularMovies,
@@ -11,7 +11,9 @@ import {
   fetchRecommendedAnime,
   fetchRecommendedKdrama,
   getPopularTvShows,
-  fetchRecommendedNollywood
+  fetchRecommendedNollywood,
+  fetchRecommendedHollywood,
+  // fetchRecommendedCdrama
 } from "../services/api";
 import "../css/Home.css";
 import Error from "../Components/Error";  
@@ -27,6 +29,14 @@ function Home() {
   const [recommendedKdrama, setRecommendedKdrama] = useState([]);
   const [popularTvShows, setPopularTvShows] = useState([]);
   const [recommendedNollywood, setRecommendedNollywood] = useState([]);
+  const [recommendedHollywood, SetRecommendedHollywood] = useState([]);
+  // const [recommendedCdrama, setRecommendedCdrama] = useState([]);
+
+  const renderSkeletons = (count) => {
+    return Array(count).fill(0).map((_, index) => (
+      <MovieCardSkeleton key={`skeleton-${index}`} />
+    ));
+  };
 
   useEffect(() => {
   const query = searchQuery.trim();
@@ -55,6 +65,12 @@ function Home() {
 
         const recommendedNollywood = await fetchRecommendedNollywood();
         setRecommendedNollywood(recommendedNollywood.slice(0, 10));
+
+        const recommendedHollywood = await fetchRecommendedHollywood();
+        SetRecommendedHollywood(recommendedHollywood.slice(6, 20));
+
+        // const recommendedCdrama = await fetchRecommendedCdrama();
+        // setRecommendedCdrama(recommendedCdrama.slice(0, 10));
 
         setError(null);
       } catch (error) {
@@ -107,16 +123,17 @@ function Home() {
         />
       </form>
 
-      {loading ? ( 
-        <Loading />
-      ): error ? <Error error={error} /> : (
+      {error ? <Error error={error} /> : (
         <div>
           <div className="movie-class">
             <h2>Popular Movies</h2>
             <div className="movies-grid movie-scroll-container">
-              {movies.map((movie) => (
-                <MovieCard movie={movie} key={movie.id} />
-              ))}
+              {loading 
+                ? renderSkeletons(10) 
+                : movies.map((movie) => (
+                    <MovieCard movie={movie} type={movie.title ? "movie" : "tv"}
+                    key={movie.id} />
+                  ))}
             </div>
           </div>
 
@@ -125,54 +142,77 @@ function Home() {
               <div className="movie-class">
                 <h2>Popular TV Shows</h2>
                 <div className="movies-grid movie-scroll-container">
-                  {popularTvShows.map((movie) => (
-                    <TvCard movie={movie} key={movie.id} />
-                  ))}
+                  {loading 
+                    ? renderSkeletons(15) 
+                    : popularTvShows.map((movie) => (
+                        <MovieCard movie={movie} type={movie.title ? "movie" : "tv"} key={movie.id} />
+                      ))}
                 </div>
               </div>
 
               <div className="movie-class">
                 <h2>Top Rated Movies</h2>
                 <div className="movies-grid movie-scroll-container">
-                  {topRatedMovies.map((movie) => (
-                    <MovieCard movie={movie} key={movie.id} />
-                  ))}
+                  {loading 
+                    ? renderSkeletons(15) 
+                    : topRatedMovies.map((movie) => (
+                        <MovieCard movie={movie} type="movie" key={movie.id} />
+                      ))}
                 </div>
               </div>
 
               <div className="movie-class">
                 <h2> Top Rated TV Shows</h2>
                 <div className="movies-grid movie-scroll-container">
-                  {tvShows.map((movie) => (
-                    <TvCard movie={movie} key={movie.id} />
-                  ))}
+                  {loading 
+                    ? renderSkeletons(15) 
+                    : tvShows.map((movie) => (
+                        <MovieCard movie={movie} type="tv" key={movie.id} />
+                      ))}
+                </div>
+              </div>
+
+              <div className="movie-class">
+                <h2>Hollywood Movies</h2>
+                <div className="movies-grid movie-scroll-container">
+                  {loading 
+                    ? renderSkeletons(14) 
+                    : recommendedHollywood.map((movie) => (
+                        <MovieCard movie={movie} type="movie" key={movie.id} />
+                      ))}
                 </div>
               </div>
 
               <div className="movie-class">
                 <h2>Anime</h2>
                 <div className="movies-grid movie-scroll-container">
-                  {recommendedAnime.map((movie) => (
-                    <TvCard movie={movie} key={movie.id} />
-                  ))}
+                  {loading 
+                    ? renderSkeletons(10) 
+                    : recommendedAnime.map((movie) => (
+                        <MovieCard movie={movie} type="tv" key={movie.id} />
+                      ))}
                 </div>
               </div>
 
               <div className="movie-class">
-                <h2>Kdrama</h2>
+                <h2>Korean Drama</h2>
                 <div className="movies-grid movie-scroll-container">
-                  {recommendedKdrama.map((movie) => (
-                    <TvCard movie={movie} key={movie.id} />
-                  ))}
+                  {loading 
+                    ? renderSkeletons(10) 
+                    : recommendedKdrama.map((movie) => (
+                        <MovieCard movie={movie} type="tv" key={movie.id} />
+                      ))}
                 </div>
               </div>
 
               <div className="movie-class">
                 <h2>Nollywood</h2>
                 <div className="movies-grid movie-scroll-container">
-                  {recommendedNollywood.map((movie) => (
-                    <MovieCard movie={movie} key={movie.id} />
-                  ))}
+                  {loading 
+                    ? renderSkeletons(10) 
+                    : recommendedNollywood.map((movie) => (
+                        <MovieCard movie={movie} type="movie" key={movie.id} />
+                      ))}
                 </div>
               </div>
             </>

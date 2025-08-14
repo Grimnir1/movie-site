@@ -5,6 +5,7 @@ import "../css/MovieDetails.css";
 import MovieCard from "../Components/MovieCard";
 import Loading from "../Components/Loading";
 import CastCard from "../Components/CastCard";
+import MovieCardSkeleton from "../Components/MovieCardSkeleton";
 
 function MovieDetails() {
     const { id } = useParams();
@@ -15,6 +16,12 @@ function MovieDetails() {
     const [similarMovies, setSimilarMovies] = useState([]);
     const [recommendedMovies, setRecommendedMovies] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const renderSkeletons = (count) => {
+        return Array(count).fill(0).map((_, index) => (
+          <MovieCardSkeleton key={`skeleton-${index}`} />
+        ));
+      };
 
     useEffect(() => {
         const loadMovie = async () => {
@@ -51,7 +58,6 @@ function MovieDetails() {
     }, [id]);
 
     if (loading) return <Loading />;
-
     if (!movie) return <div className="error-message">Movie not found</div>;
 
     return (
@@ -151,8 +157,8 @@ function MovieDetails() {
                 <div className="similar-movies">
                     <h3>Similar Movies</h3>
                     <div className="movies-grid movie-scroll-container">
-                        {similarMovies.map((movie) => (
-                            <MovieCard movie={movie} key={movie.id} />
+                        {loading ? renderSkeletons(10) : similarMovies.map((movie) => (
+                            <MovieCard movie={movie} type="movie" key={movie.id} />
                         ))}
                     </div>
                 </div>
@@ -160,8 +166,8 @@ function MovieDetails() {
                 <div className="recommended-movies">
                     <h3>Recommended Movies</h3>
                     <div className="movies-grid movie-scroll-container">
-                        {recommendedMovies.map((movie) => (
-                            <MovieCard movie={movie} key={movie.id} />
+                        {loading ? renderSkeletons(10) : recommendedMovies.map((movie) => (
+                            <MovieCard movie={movie} type="movie" key={movie.id} />
                         ))}
                     </div>
                 </div>

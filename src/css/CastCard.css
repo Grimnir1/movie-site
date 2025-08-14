@@ -6,13 +6,13 @@
     transition: transform 0.2s;
     height: 100%;
     display: flex;
-    min-width: 200px;
+    min-width: 250px;
     flex-direction: column;
 }
 
 .cast-photo {
-    width: 200px;
-    height: 250px;
+    width: 250px;
+    height: 300px;
     object-fit: cover;
     /* border-radius: 50%; */
 }
@@ -22,4 +22,5 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 10px;
 }

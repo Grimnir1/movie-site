@@ -168,7 +168,7 @@ export const fetchRecommendedKdrama = async () => {
     return data.results;
     
   } catch (error) {
-    console.error('Error fetching recommended anime:', error);
+    console.error('Error fetching recommended kdrama:', error);
     throw error; 
   }
 };
@@ -192,7 +192,30 @@ export const fetchRecommendedNollywood = async () => {
     return data.results;
     
   } catch (error) {
-    console.error('Error fetching recommended anime:', error);
+    console.error('Error fetching recommended nollywood:', error);
+    throw error; 
+  }
+};
+
+export const fetchRecommendedHollywood = async () => {
+  try {
+    const response = await fetch(
+      `${API_URL}/discover/movie?api_key=${API_KEY}&language=en-US&with_origin_country=US`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    if (!data || !data.results) {
+      throw new Error('Invalid response structure');
+    }
+    
+    return data.results;
+    
+  } catch (error) {
+    console.error('Error fetching recommended hollywood:', error);
     throw error; 
   }
 };
