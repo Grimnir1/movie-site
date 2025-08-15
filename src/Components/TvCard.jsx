@@ -30,7 +30,6 @@ function TvCard({movie}){
                     </div>
                     <div className="movie-info">
                         <h3>{movie.name}</h3> 
-                        <p>{movie.first_air_date?.split('-')[0]}</p>
                     </div>
                 </div>
         </Link>

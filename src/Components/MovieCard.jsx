@@ -29,7 +29,7 @@ function MovieCard({movie, type}){
                 </div>
                 <div className="movie-info">
                     <h3>{movie.title}</h3> 
-                    <p>{movie.release_date?.split('-')[0]}</p>
+                    {/* <p>{movie.release_date?.split('-')[0]}</p> */}
                 </div>
             </div>
         </Link>
@@ -47,7 +47,6 @@ function MovieCard({movie, type}){
                     </div>
                     <div className="movie-info">
                         <h3>{movie.name}</h3> 
-                        <p>{movie.first_air_date?.split('-')[0]}</p>
                     </div>
                 </div>
         </Link>
