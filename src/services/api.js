@@ -219,3 +219,92 @@ export const fetchRecommendedHollywood = async () => {
     throw error; 
   }
 };
+
+export const fetchRecommendedCdrama = async () => {
+  try {
+    const response = await fetch(
+      `${API_URL}/discover/tv?api_key=${API_KEY}&language=en-US&with_origin_country=CN`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    if (!data || !data.results) {
+      throw new Error('Invalid response structure');
+    }
+    
+    return data.results;
+    
+  } catch (error) {
+    console.error('Error fetching recommended cdrama:', error);
+    throw error; 
+  }
+};
+
+// Get watch providers for a TV show
+export const fetchTvWatchProviders = async (tvId) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/tv/${tvId}/watch/providers?api_key=${API_KEY}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.results?.US || null; // Return US providers or null if not available
+  } catch (error) {
+    console.error('Error fetching TV watch providers:', error);
+    return null;
+  }
+};
+
+// Get watch providers for a movie
+export const fetchMovieWatchProviders = async (movieId) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/movie/${movieId}/watch/providers?api_key=${API_KEY}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.results?.US || null; // Return US providers or null if not available
+  } catch (error) {
+    console.error('Error fetching watch providers:', error);
+    return null;
+  }
+};
+
+// Get external IDs for a TV show including IMDb ID
+export const fetchTvExternalIds = async (tvId) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/tv/${tvId}/external_ids?api_key=${API_KEY}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching TV external IDs:', error);
+    return { imdb_id: null };
+  }
+};
+
+// Get external IDs including IMDb ID
+export const fetchMovieExternalIds = async (movieId) => {
+  try {
+    const response = await fetch(
+      `${API_URL}/movie/${movieId}/external_ids?api_key=${API_KEY}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching external IDs:', error);
+    return { imdb_id: null };
+  }
+};

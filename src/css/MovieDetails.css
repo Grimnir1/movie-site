@@ -69,6 +69,101 @@
   min-width: fit-content;
 }
 
+/* Watch Providers */
+.watch-providers {
+  margin: 15px 0;
+  padding: 10px 0;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+}
+
+.watch-providers strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.provider-category {
+  margin-bottom: 10px;
+}
+
+.provider-category span {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #bbb;
+}
+
+.providers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.provider-logo {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #333;
+  transition: transform 0.2s;
+}
+
+.provider-logo:hover {
+  transform: scale(1.1);
+}
+
+/* External Ratings */
+.external-ratings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #333;
+}
+
+.rating-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f5c518;
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.rating-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.rating-logo {
+  height: 24px;
+  width: auto;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+
+.rating-label {
+  font-size: 0.85rem;
+  color: #bbb;
+}
+
+.rating-value {
+  font-weight: 600;
+  color: #fff;
+}
+
 /* Trailer Section */
 .trailer-section {
   margin-bottom: 40px;

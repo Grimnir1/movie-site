@@ -13,7 +13,7 @@ import {
   getPopularTvShows,
   fetchRecommendedNollywood,
   fetchRecommendedHollywood,
-  // fetchRecommendedCdrama
+  fetchRecommendedCdrama
 } from "../services/api";
 import "../css/Home.css";
 import Error from "../Components/Error";  
@@ -30,7 +30,7 @@ function Home() {
   const [popularTvShows, setPopularTvShows] = useState([]);
   const [recommendedNollywood, setRecommendedNollywood] = useState([]);
   const [recommendedHollywood, SetRecommendedHollywood] = useState([]);
-  // const [recommendedCdrama, setRecommendedCdrama] = useState([]);
+  const [recommendedCdrama, setRecommendedCdrama] = useState([]);
 
   const renderSkeletons = (count) => {
     return Array(count).fill(0).map((_, index) => (
@@ -46,31 +46,31 @@ function Home() {
       setLoading(true);
       try {
         const popularMovies = await getPopularMovies();
-        setMovies(popularMovies.slice(0, 10));
+        setMovies(popularMovies.slice(0, 26));
 
         const recommendedAnime = await fetchRecommendedAnime();
-        setRecommendedAnime(recommendedAnime.slice(0, 10));
+        setRecommendedAnime(recommendedAnime.slice(0, 26));
 
         const topRated = await getTopRatedMovies();
-        setTopRatedMovies(topRated.slice(0, 15));
+        setTopRatedMovies(topRated.slice(0, 26));
 
         const tvShowsData = await getTvShows();
-        setTvShows(tvShowsData.slice(0, 15));
+        setTvShows(tvShowsData.slice(0, 26));
 
         const recommendedKdrama = await fetchRecommendedKdrama();
-        setRecommendedKdrama(recommendedKdrama.slice(0, 10));
+        setRecommendedKdrama(recommendedKdrama.slice(0, 26));
 
         const popularTvShowsData = await getPopularTvShows();
-        setPopularTvShows(popularTvShowsData.slice(0, 15));
+        setPopularTvShows(popularTvShowsData.slice(0, 26));
 
         const recommendedNollywood = await fetchRecommendedNollywood();
-        setRecommendedNollywood(recommendedNollywood.slice(0, 10));
+        setRecommendedNollywood(recommendedNollywood.slice(0, 26));
 
         const recommendedHollywood = await fetchRecommendedHollywood();
-        SetRecommendedHollywood(recommendedHollywood.slice(6, 20));
+        SetRecommendedHollywood(recommendedHollywood.slice(6, 26));
 
-        // const recommendedCdrama = await fetchRecommendedCdrama();
-        // setRecommendedCdrama(recommendedCdrama.slice(0, 10));
+        const recommendedCdrama = await fetchRecommendedCdrama();
+        setRecommendedCdrama(recommendedCdrama.slice(0, 26));
 
         setError(null);
       } catch (error) {
@@ -212,6 +212,17 @@ function Home() {
                     ? renderSkeletons(10) 
                     : recommendedNollywood.map((movie) => (
                         <MovieCard movie={movie} type="movie" key={movie.id} />
+                      ))}
+                </div>
+              </div>
+
+              <div className="movie-class">
+                <h2>Cdrama</h2>
+                <div className="movies-grid movie-scroll-container">
+                  {loading 
+                    ? renderSkeletons(10) 
+                    : recommendedCdrama.map((movie) => (
+                        <MovieCard movie={movie} type="tv" key={movie.id} />
                       ))}
                 </div>
               </div>

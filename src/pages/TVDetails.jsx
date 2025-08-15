@@ -5,12 +5,15 @@ import {
   fetchTvVideos,
   fetchTvCredits,
   fetchSimilarTvShows,
-  fetchRecommendedTvShows
+  fetchRecommendedTvShows,
+  fetchTvWatchProviders,
+  fetchTvExternalIds
 } from "../services/api";
 import "../css/MovieDetails.css";
 import TvCard from "../Components/TvCard";
 import Loading from "../Components/Loading";
 import CastCard from "../Components/CastCard";
+
 function TVDetails() {
   const { id } = useParams();
   const [tv, setTv] = useState(null);
@@ -20,6 +23,8 @@ function TVDetails() {
   const [similarShows, setSimilarShows] = useState([]);
   const [recommendedShows, setRecommendedShows] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [watchProviders, setWatchProviders] = useState(null);
+  const [externalIds, setExternalIds] = useState({ imdb_id: null });
 
   useEffect(() => {
     const loadTV = async () => {
@@ -54,7 +59,13 @@ function TVDetails() {
 
         const recommended = await fetchRecommendedTvShows(id);
         setRecommendedShows(recommended.slice(0, 8));
-        
+
+        // Fetch watch providers and external IDs
+        const providers = await fetchTvWatchProviders(id);
+        setWatchProviders(providers);
+
+        const ids = await fetchTvExternalIds(id);
+        setExternalIds(ids);
       } catch (error) {
         console.error("Error loading TV show data:", error);
       } finally {
@@ -124,7 +135,73 @@ function TVDetails() {
               <strong>Production Companies:</strong> {tv.production_companies?.map((c) => c.name).join(", ")}
             </div>
             <div className="meta-item">
-              <strong>Production Countries:</strong> {tv.production_countries?.map((c) => c.name).join(", ")}
+              <strong>Production Countries:</strong> {tv.origin_country?.join(", ")}
+            </div>
+
+            {/* Watch Providers */}
+            {watchProviders && (
+              <div className="watch-providers">
+                <strong>Where to Watch:</strong>
+                <div className="provider-list">
+                  {watchProviders.flatrate?.length > 0 && (
+                    <div className="provider-category">
+                      <span>Stream:</span>
+                      <div className="providers">
+                        {watchProviders.flatrate.map((provider) => (
+                          <img
+                            key={provider.provider_id}
+                            src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
+                            alt={provider.provider_name}
+                            title={provider.provider_name}
+                            className="provider-logo"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {watchProviders.buy?.length > 0 && (
+                    <div className="provider-category">
+                      <span>Buy/Rent:</span>
+                      <div className="providers">
+                        {watchProviders.buy.map((provider) => (
+                          <img
+                            key={provider.provider_id}
+                            src={`https://image.tmdb.org/t/p/original${provider.logo_path}`}
+                            alt={provider.provider_name}
+                            title={provider.provider_name}
+                            className="provider-logo"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* External Ratings */}
+            <div className="external-ratings">
+              {externalIds.imdb_id && (
+                <a
+                  href={`https://www.imdb.com/title/${externalIds.imdb_id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rating-link"
+                >
+                  <img
+                    src="/imdb-logo.png"
+                    alt="IMDb"
+                    className="rating-logo"
+                  />
+                  View on IMDb
+                </a>
+              )}
+              {tv.vote_average > 0 && (
+                <div className="rating">
+                  <span className="rating-label">TMDB Rating:</span>
+                  <span className="rating-value">{tv.vote_average.toFixed(1)}/10</span>
+                </div>
+              )}
             </div>
           </div>
         </div>

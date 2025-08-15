@@ -1,6 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchMovieById, fetchMovieVideos, fetchMovieCredits, fetchSimilarMovies, fetchRecommendedMovies } from "../services/api";
+import { 
+  fetchMovieById, 
+  fetchMovieVideos, 
+  fetchMovieCredits, 
+  fetchSimilarMovies, 
+  fetchRecommendedMovies,
+  fetchMovieWatchProviders,
+  fetchMovieExternalIds 
+} from "../services/api";
 import "../css/MovieDetails.css";
 import MovieCard from "../Components/MovieCard";
 import Loading from "../Components/Loading";
@@ -16,6 +24,8 @@ function MovieDetails() {
     const [similarMovies, setSimilarMovies] = useState([]);
     const [recommendedMovies, setRecommendedMovies] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [watchProviders, setWatchProviders] = useState(null);
+    const [externalIds, setExternalIds] = useState({ imdb_id: null });
 
     const renderSkeletons = (count) => {
         return Array(count).fill(0).map((_, index) => (
@@ -46,6 +56,13 @@ function MovieDetails() {
                 setSimilarMovies(similarMovies.slice(0, 8));
                 const recommendedMovies = await fetchRecommendedMovies(id);
                 setRecommendedMovies(recommendedMovies.slice(0, 8));
+                
+                // Fetch watch providers and external IDs
+                const providers = await fetchMovieWatchProviders(id);
+                setWatchProviders(providers);
+                
+                const ids = await fetchMovieExternalIds(id);
+                setExternalIds(ids);
                 
             } catch (error) {
                 console.error("Error loading movie data:", error);
@@ -97,6 +114,72 @@ function MovieDetails() {
                         </div>
                         <div className="meta-item">
                             <strong>Production Countries:</strong> {movie.production_countries?.map(c => c.name).join(", ")}
+                        </div>
+                        
+                        {/* Watch Providers */}
+                        {watchProviders && (
+                            <div className="watch-providers">
+                                <strong>Where to Watch:</strong>
+                                <div className="provider-list">
+                                    {watchProviders.flatrate?.length > 0 && (
+                                        <div className="provider-category">
+                                            <span>Stream:</span>
+                                            <div className="providers">
+                                                {watchProviders.flatrate.map(provider => (
+                                                    <img 
+                                                        key={provider.provider_id}
+                                                        src={`https://image.tmdb.org/t/p/original${provider.logo_path}`} 
+                                                        alt={provider.provider_name}
+                                                        title={provider.provider_name}
+                                                        className="provider-logo"
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                    {watchProviders.buy?.length > 0 && (
+                                        <div className="provider-category">
+                                            <span>Buy/Rent:</span>
+                                            <div className="providers">
+                                                {watchProviders.buy.map(provider => (
+                                                    <img 
+                                                        key={provider.provider_id}
+                                                        src={`https://image.tmdb.org/t/p/original${provider.logo_path}`} 
+                                                        alt={provider.provider_name}
+                                                        title={provider.provider_name}
+                                                        className="provider-logo"
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                        
+                        {/* External Ratings */}
+                        <div className="external-ratings">
+                            {externalIds.imdb_id && (
+                                <a 
+                                    href={`https://www.imdb.com/title/${externalIds.imdb_id}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="rating-link"
+                                >
+                                    <img 
+                                        src="/imdb-logo.png" 
+                                        alt="IMDb" 
+                                        className="rating-logo"
+                                    />
+                                    View on IMDb
+                                </a>
+                            )}
+                            {movie.vote_average > 0 && (
+                                <div className="rating">
+                                    <span className="rating-label">TMDB Rating:</span>
+                                    <span className="rating-value">{movie.vote_average.toFixed(1)}/10</span>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
