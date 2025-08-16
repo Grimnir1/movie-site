@@ -29,7 +29,6 @@ function MovieCard({movie, type}){
                 </div>
                 <div className="movie-info">
                     <h3>{movie.title}</h3> 
-                    {/* <p>{movie.release_date?.split('-')[0]}</p> */}
                 </div>
             </div>
         </Link>

@@ -18,13 +18,13 @@ function AiringToday() {
             setLoading(true);
             try {
                 const airingToday = await getAiringTodayTv();
-                setAiringToday(airingToday.slice(0, 10));
+                setAiringToday(airingToday.slice(0, 26));
 
                 const upcomingMovies = await getUpcomingMovies();
-                setUpcomingMovies(upcomingMovies.slice(0, 10));
+                setUpcomingMovies(upcomingMovies.slice(0, 26));
 
                 const nowPlayingMovies = await getNowPlayingMovies();
-                setNowPlayingMovies(nowPlayingMovies.slice(0, 10));
+                setNowPlayingMovies(nowPlayingMovies.slice(0, 26));
 
                 setError(null);
 
@@ -54,7 +54,7 @@ function AiringToday() {
                         <h1>Airing Today</h1>
                         <div className="movies-grid">
                             {loading 
-                                ? renderSkeletons(10)
+                                ? renderSkeletons(26)
                                 : airingToday.map((show) => (
                                     <TVCard key={show.id} movie={show} />
                                 ))}

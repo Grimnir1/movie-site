@@ -29,11 +29,21 @@ export const getTvShows = async () => {
 }
 // Search for movies
 export const searchPopularMovies = async (query) => {
-  const response = await fetch(
-    `${API_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`
-  );
-  const data = await response.json();
-  return data.results;
+  try {
+    const response = await fetch(
+      `${API_URL}/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(query)}`
+    );
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data.results.sort((a, b) => b.popularity - a.popularity);
+  } catch (error) {
+    console.error('Error searching movies:', error);
+    throw error; // Re-throw to allow error handling where the function is called
+  }
 };
 
 // Fetch detailed info for a single movie
@@ -59,14 +69,14 @@ export const fetchMovieCredits = async (id) => {
 export const fetchSimilarMovies = async (id) => {
   const response = await fetch(`${API_URL}/movie/${id}/similar?api_key=${API_KEY}`);
   const data = await response.json();
-  return data.results;
+  return data.results.sort((a, b) => b.popularity - a.popularity);
 };
 
 // Fetch recommended movies
 export const fetchRecommendedMovies = async (id) => {
   const response = await fetch(`${API_URL}/movie/${id}/recommendations?api_key=${API_KEY}`);
   const data = await response.json();
-  return data.results;
+  return data.results.sort((a, b) => b.popularity - a.popularity);
 };
 
 
@@ -91,13 +101,13 @@ export const fetchTvCredits = async (id) => {
 export const fetchSimilarTvShows = async (id) => {
   const response = await fetch(`${API_URL}/tv/${id}/similar?api_key=${API_KEY}`);
   const data = await response.json();
-  return data.results;
+  return data.results.sort((a, b) => b.popularity - a.popularity);
 };
 
 export const fetchRecommendedTvShows = async (id) => {
   const response = await fetch(`${API_URL}/tv/${id}/recommendations?api_key=${API_KEY}`);
   const data = await response.json();
-  return data.results;
+  return data.results.sort((a, b) => b.popularity - a.popularity);
 };
 
 export const getUpcomingMovies = async () => {
