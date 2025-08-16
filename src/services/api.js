@@ -25,7 +25,7 @@ export const getTopRatedMovies = async () => {
 export const getTvShows = async () => {
   const response = await fetch(`${API_URL}/tv/top_rated?api_key=${API_KEY}`);
   const data = await response.json();
-  return data.results;
+  return data.results.sort((a,b) => b.popularity - a.popularity);
 }
 // Search for movies
 export const searchPopularMovies = async (query) => {
